@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/srv/">
+    <Project Path="MyProject.Api/MyProject.Api.csproj" />
+    <Project Path="MyProject.Application/MyProject.Application.csproj" />
+    <Project Path="MyProject.Domain/MyProject.Domain.csproj" />
+    <Project Path="MyProject.Infrastructure/MyProject.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="../test/MyProject.Integration/MyProject.Integration.csproj" />
+    <Project Path="../test/MyProject.Unit/MyProject.Unit.csproj" />
+  </Folder>
+</Solution>
