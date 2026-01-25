@@ -17,12 +17,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Endpoints\" />
-		<Folder Include="Middlewares\" />
-		<Folder Include="Extensions\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\MyProject.Application\MyProject.Application.csproj" />
 	  <ProjectReference Include="..\MyProject.Infrastructure\MyProject.Infrastructure.csproj" />
 	</ItemGroup>
