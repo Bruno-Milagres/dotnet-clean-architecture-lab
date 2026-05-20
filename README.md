@@ -1,32 +1,32 @@
-# .NET Clean Architecture – Reference Template
+# .NET Clean Architecture – Template de Referência
 
-## Purpose
-This repository is an **opinionated Clean Architecture foundation for modern .NET applications**.
+## Propósito
+Este repositório é uma **base opinada de Clean Architecture para aplicações .NET modernas**.
 
-It was created as:
-- a **personal reference** for architectural decisions
-- a **reusable project starter** (template mindset, not a framework)
-- a **learning log** that evolves with real-world experience
+Foi criado como:
+- uma **referência pessoal** para decisões arquiteturais
+- um **ponto de partida reutilizável** (mentalidade de template, não de framework)
+- um **registro de aprendizado** que evolui com a experiência prática
 
-The focus is **clarity over boilerplate**, **pragmatism over dogma**, and **patterns that scale from small APIs to complex systems**.
+O foco é **clareza em vez de boilerplate**, **pragmatismo em vez de dogma**, e **padrões que escalam de pequenas APIs a sistemas complexos**.
 
 ---
 
-## Architectural Philosophy
+## Filosofia Arquitetural
 
-This project follows **Clean Architecture principles**, inspired by:
-- Microsoft .NET Architecture Guidelines
+Este projeto segue os **princípios de Clean Architecture**, inspirado por:
+- Diretrizes de Arquitetura .NET da Microsoft
 - Jason Taylor (Clean Architecture)
 - Steve Smith (Ardalis)
-- Pragmatic DDD and Vertical Slice Architecture
+- DDD Pragmático e Vertical Slice Architecture
 
-Core ideas:
-- **Domain is king** – pure, isolated, framework-agnostic
-- **Application defines use cases**, not technical details
-- **Infrastructure implements contracts**, never leaks inward
-- **WebApi is only an entry point**, thin and disposable
+Ideias centrais:
+- **Domain é rei** – puro, isolado, independente de frameworks
+- **Application define os casos de uso**, não os detalhes técnicos
+- **Infrastructure implementa contratos**, nunca vaza para dentro
+- **WebApi é apenas um ponto de entrada**, fino e descartável
 
-Dependencies flow **inward only**.
+As dependências fluem **somente para dentro**.
 
 ```
 WebApi → Application → Domain
@@ -36,7 +36,7 @@ WebApi → Application → Domain
 
 ---
 
-## Solution Structure
+## Estrutura da Solução
 
 ```
 MyProject
@@ -67,161 +67,160 @@ MyProject
 
 ---
 
-## Layer Responsibilities
+## Responsabilidades das Camadas
 
-### In simple terms:
-- **Domain** – the “how”: business rules, invariants, and behaviors
-- **Application** – the “what”: use cases and orchestration of the flow
-- **Infrastructure** – the “where and with what”: database, messaging, external services
-- **Presentation (Web API)** – the entry point: translates HTTP into application calls
+### Em termos simples:
+- **Domain** – o "como": regras de negócio, invariantes e comportamentos
+- **Application** – o "o quê": casos de uso e orquestração do fluxo
+- **Infrastructure** – o "onde e com quê": banco de dados, mensageria, serviços externos
+- **Presentation (Web API)** – o ponto de entrada: traduz HTTP em chamadas de aplicação
 
-> This summary is especially helpful for those learning Clean Architecture for the first time.  
+> Este resumo é especialmente útil para quem está aprendendo Clean Architecture pela primeira vez.  
 > — @Bruno Milagres
 
-### Detailed
+### Detalhado
 
 #### Domain
-The **core of the system**.
-- Business rules, invariants and behavior
-- No dependencies on frameworks or infrastructure
-- Fully testable in memory
-Contains:
-- Entities
-- Value Objects
-- Domain Exceptions
-> The Domain answers **"how the business works"**.
+O **núcleo do sistema**.
+- Regras de negócio, invariantes e comportamentos
+- Sem dependências de frameworks ou infraestrutura
+- Totalmente testável em memória
+Contém:
+- Entidades
+- Objetos de Valor
+- Exceções de Domínio
+> O Domain responde **"como o negócio funciona"**.
 
 ---
 
 #### Application
-Defines **what the system does** through use cases.
-- Orchestrates workflows
-- Applies business rules via the Domain
-- Depends only on abstractions
-Key concepts:
-- Vertical slices (`Features`)
+Define **o que o sistema faz** por meio de casos de uso.
+- Orquestra fluxos de trabalho
+- Aplica regras de negócio via Domain
+- Depende apenas de abstrações
+Conceitos-chave:
+- Fatias verticais (`Features`)
 - CQRS (Commands / Queries)
-- Pipeline behaviors (validation, logging, transactions)
-> The Application answers **"what needs to be done"**.
+- Behaviors de pipeline (validação, logging, transações)
+> A Application responde **"o que precisa ser feito"**.
 
 ---
 
 #### Infrastructure
-Contains **technical implementations**.
-- Databases, external services, messaging, integrations
-- Implements interfaces defined in Application
-- Knows about EF Core, HTTP, brokers, SDKs, etc.
-> Infrastructure answers **"where and with what"**.
+Contém **implementações técnicas**.
+- Bancos de dados, serviços externos, mensageria, integrações
+- Implementa interfaces definidas na Application
+- Conhece EF Core, HTTP, brokers, SDKs, etc.
+> A Infrastructure responde **"onde e com quê"**.
 
 ---
 
 #### WebApi
-The **entry point** of the system.
+O **ponto de entrada** do sistema.
 - Minimal APIs
-- Endpoints only translate HTTP ↔ Application
-- No business logic
-Responsibilities:
-- Request/response mapping
-- Dependency Injection composition
-- Middleware configuration
-> WebApi is intentionally thin and replaceable.
+- Endpoints apenas traduzem HTTP ↔ Application
+- Sem lógica de negócio
+Responsabilidades:
+- Mapeamento de requisições/respostas
+- Composição de injeção de dependência
+- Configuração de middlewares
+> A WebApi é intencionalmente fina e substituível.
 
 ---
 
-## Why There Is No `Common` Project
+## Por que Não Existe um Projeto `Common`
 
-This template **intentionally avoids a shared `Common` project**.
+Este template **evita intencionalmente um projeto `Common` compartilhado**.
 
-Reasons:
-- `Common` tends to become a dumping ground
-- Encourages tight coupling between layers
-- Hides architectural boundaries
+Motivos:
+- `Common` tende a se tornar um depósito de código sem critério
+- Incentiva acoplamento forte entre camadas
+- Oculta as fronteiras arquiteturais
 
-Instead:
-- **Business concepts** live in Domain
-- **Use case results / responses** live in Application
-- **Technical helpers** live in Infrastructure
+Em vez disso:
+- **Conceitos de negócio** ficam no Domain
+- **Resultados / respostas de casos de uso** ficam na Application
+- **Utilitários técnicos** ficam na Infrastructure
 
-Each piece belongs **where it makes sense contextually**.
-
----
-
-## Testing Strategy (Planned)
-
-- Domain: pure unit tests
-- Application: use case tests with mocked abstractions
-- Infrastructure: integration tests
-- WebApi: minimal smoke / contract tests
+Cada peça pertence **onde faz sentido contextualmente**.
 
 ---
 
-## Evolution Goals
+## Estratégia de Testes (Planejado)
 
-This repository is expected to evolve with:
-- Observability (OpenTelemetry)
-- Persistence (EF Core)
-- Messaging (outbox, async events)
-- Authentication / Authorization
-- Cloud readiness
-
-Changes are intentional and documented as learning milestones.
+- Domain: testes unitários puros
+- Application: testes de casos de uso com abstrações mockadas
+- Infrastructure: testes de integração
+- WebApi: testes mínimos de fumaça / contrato
 
 ---
 
-## Usage
+## Objetivos de Evolução
 
-This repository is **not a NuGet package**.
+Este repositório deve evoluir com:
+- Observabilidade (OpenTelemetry)
+- Persistência (EF Core)
+- Mensageria (outbox, eventos assíncronos)
+- Autenticação / Autorização
+- Prontidão para nuvem
 
-It is meant to be:
-- cloned
-- adapted
-- renamed
-- evolved
-
-Think of it as a **starting line**, not a finished product.
+As mudanças são intencionais e documentadas como marcos de aprendizado.
 
 ---
 
-## Features Added
+## Uso
 
-- **Serilog** for structured logging (all HTTP requests and application logs are output to the console)
-- **OpenTelemetry** for distributed tracing (traces HTTP requests and exports to the console)
-- **OpenAPI** documentation (JSON at `/openapi/v1.json`)
-- **Scalar UI** for interactive API docs at `/`
-- **Minimal health endpoint** at `/health` (`GET /health` returns `{ "status": "Healthy" }`)
+Este repositório **não é um pacote NuGet**.
 
-### Main Packages
+Ele deve ser:
+- clonado
+- adaptado
+- renomeado
+- evoluído
+
+Pense nele como uma **linha de partida**, não um produto acabado.
+
+---
+
+## Funcionalidades Adicionadas
+
+- **Serilog** para logging estruturado (todas as requisições HTTP e logs da aplicação são exibidos no console)
+- **OpenTelemetry** para rastreamento distribuído (rastreia requisições HTTP e exporta para o console)
+- **OpenAPI** documentação (JSON em `/openapi/v1.json`)
+- **Scalar UI** para documentação interativa da API em `/`
+- **Endpoint de saúde mínimo** em `/health` (`GET /health` retorna `{ "status": "Healthy" }`)
+
+### Principais Pacotes
 - [Serilog.AspNetCore](https://www.nuget.org/packages/Serilog.AspNetCore/): Logging
-- [OpenTelemetry.Extensions.Hosting](https://www.nuget.org/packages/OpenTelemetry.Extensions.Hosting/): Tracing
+- [OpenTelemetry.Extensions.Hosting](https://www.nuget.org/packages/OpenTelemetry.Extensions.Hosting/): Rastreamento
 - [Microsoft.AspNetCore.OpenApi](https://www.nuget.org/packages/Microsoft.AspNetCore.OpenApi/): OpenAPI/Swagger
-- [Scalar.AspNetCore](https://www.nuget.org/packages/Scalar.AspNetCore/): OpenAPI UI
+- [Scalar.AspNetCore](https://www.nuget.org/packages/Scalar.AspNetCore/): UI do OpenAPI
 
 ---
 
-## How to Run
-1. Install the .NET 10 SDK
-2. Restore packages:
+## Como Executar
+1. Instale o SDK do .NET 10
+2. Restaure os pacotes:
    ```bash
    dotnet restore
    ```
-3. Run the project:
+3. Execute o projeto:
    ```bash
    dotnet run --project MyProject.App/MyProject.Api.csproj
    ```
-4. Access:
-   - Scalar UI: [http://localhost:5000/](http://localhost:5000/) (or your configured port)
+4. Acesse:
+   - Scalar UI: [http://localhost:5000/](http://localhost:5000/) (ou a porta configurada)
    - OpenAPI JSON: [http://localhost:5000/openapi/v1.json](http://localhost:5000/openapi/v1.json)
    - Health check: [http://localhost:5000/health](http://localhost:5000/health)
 
 ---
 
-## Contribution
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## Contribuição
+Pull requests são bem-vindos. Para mudanças significativas, abra uma issue primeiro para discutir o que você gostaria de alterar.
 
-## License
-This project is licensed under the MIT License.
+## Licença
+Este projeto está licenciado sob a Licença MIT.
 
 ---
 
-**Maintainer:** @Bruno Milagres – 2024-06-07
-
+**Mantenedor:** @Bruno Milagres – 2024-06-07
